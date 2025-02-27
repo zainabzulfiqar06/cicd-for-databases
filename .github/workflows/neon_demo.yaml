@@ -42,10 +42,13 @@ jobs:
           project_id: ${{ vars.NEON_PROJECT_ID }}
           branch_name: preview/pr-${{ github.event.number }}-${{ needs.setup.outputs.branch }}
           api_key: ${{ secrets.NEON_API_KEY }}
-
+          
+      - name: checkout
+        uses: actions/checkout@v4.2.2
+       
 
       - name: Run Migrations
-        run: ls -ltr && npm install & npm run migrate:up
+        run: npm install & npm run migrate:up
         env:
           # to use pooled connection
           DATABASE_URL: "${{ steps.create_neon_branch.outputs.db_url_with_pooler }}"
